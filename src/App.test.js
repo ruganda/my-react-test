@@ -24,9 +24,11 @@ describe('App', () => {
 
 
 describe('HomePage', () => {
+
   it('renders the search component', () => {
+    const initialValues = {searchResults: [], setSearchResults: ()=>{}, allData: [], setAllData: ()=>{}}
     render(
-      <SearchContext.Provider value={[[], () => {}, [], () => {}]}>
+      <SearchContext.Provider value={initialValues}>
         <HomePage fetchDummyData={() => {}} />
       </SearchContext.Provider>
     );
@@ -34,8 +36,10 @@ describe('HomePage', () => {
   });
 
   it('renders the orders table if searchResults is not empty', () => {
+    const initialValues = {searchResults: [{ id: 1, item: '126790' }], setSearchResults: ()=>{}, allData: [], setAllData: ()=>{}}
+
     render(
-      <SearchContext.Provider value={[[{ id: 1, item: '126790' }], () => {}, [], () => {}]}>
+      <SearchContext.Provider value={initialValues}>
         <HomePage fetchDummyData={() => {}} />
       </SearchContext.Provider>
     );
@@ -43,8 +47,10 @@ describe('HomePage', () => {
   });
 
   it('renders the empty state if searchResults is empty', () => {
+    const initialValues = {searchResults: [], setSearchResults: ()=>{}, allData: [], setAllData: ()=>{}}
+
     render(
-      <SearchContext.Provider value={[[], () => {}, [], () => {}]}>
+      <SearchContext.Provider value={initialValues}>
         <HomePage fetchDummyData={() => {}} />
       </SearchContext.Provider>
     );

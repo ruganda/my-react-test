@@ -19,9 +19,12 @@ import SearchComponent from './SearchComponent';
 
 
 const drawerWidth = 240;
+interface HomeProps{
+  fetchDummyData: ()=> void
+}
 
-export default function HomePage({ fetchDummyData }) {
-  const [searchResults, setSearchResults, allData ] = useContext(SearchContext);
+export default function HomePage({ fetchDummyData }: HomeProps) {
+  const {searchResults, setSearchResults, allData } = useContext(SearchContext);
 
   const fetchData = ()=>{
     fetchDummyData()

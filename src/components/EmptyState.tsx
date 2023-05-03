@@ -1,7 +1,10 @@
 import React from 'react';
 import {Typography, Button, Box } from '@mui/material';
 
-const EmptyState = ({fetchData =()=>{}}) => {
+interface EmptyStateProps{
+  fetchData: ()=>void
+}
+const EmptyState = ({fetchData =()=>{}}: EmptyStateProps) => {
   return (
     <Box sx={{ height: '90vh', display: 'flex',flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
       <h3>What are you looking for?</h3>

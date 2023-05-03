@@ -17,6 +17,7 @@ import {
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import SearchContext from '../context/SearchContext';
+import { OrderInterface } from '../types';
 
 const headerSx = {
   display: 'flex',
@@ -44,6 +45,24 @@ const footerSx = {
 const cancelButtonSx = {
   marginRight: '16px',
 };
+interface FilterProps {
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  filters: FilterOptions;
+  setFilters: React.Dispatch<React.SetStateAction<FilterOptions>>;
+  applyFilters: (filter: FilterOptions) => OrderInterface[];
+  itemNumber: string;
+  setItemNumber: React.Dispatch<React.SetStateAction<string>>;
+  orderNumber: string;
+  setOrderNumber: React.Dispatch<React.SetStateAction<string>>;
+}
+
+interface FilterOptions {
+  item: string[];
+  order: string[];
+  type: string[];
+  apply: boolean;
+}
 
 const Filters = ({
   open,
@@ -55,8 +74,9 @@ const Filters = ({
   setItemNumber,
   orderNumber,
   setOrderNumber,
-}) => {
-  const [searchResults, setSearchResults] = useContext(SearchContext);
+}: FilterProps) => {
+  
+  const {setSearchResults} = useContext(SearchContext);
 
   const [expanded, setExpanded] = useState(['item', 'order', 'type']);
 
@@ -69,7 +89,7 @@ const Filters = ({
 
   const typeOptions = ['EDF', 'CAO', 'SFO'];
 
-  const handleAccordionChange = (panel) => {
+  const handleAccordionChange = (panel: string) => {
     setExpanded((prev) => {
       if (prev.includes(panel)) {
         return prev.filter((item) => item !== panel);
@@ -79,10 +99,10 @@ const Filters = ({
     });
   };
 
-  const handleSelectAll = (event) => {
+  const handleSelectAll = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { checked } = event.target;
 
-    setFilters((prev) => {
+    setFilters((prev: any) => {
       if (checked) {
         return { ...prev, type: typeOptions };
       } else {
@@ -91,15 +111,15 @@ const Filters = ({
     });
   };
 
-  const handleCheckboxChange = (event, filterItem) => {
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>, filterItem: string) => {
     const { checked } = event.target;
-    setFilters((prev) => {
+    setFilters((prev: any) => {
       if (checked) {
         return { ...prev, type: [...prev.type, filterItem] };
       } else {
         return {
           ...prev,
-          type: prev.type.filter((item) => item !== filterItem),
+          type: prev.type.filter((item: string) => item !== filterItem),
         };
       }
     });
@@ -246,7 +266,8 @@ const Filters = ({
             </List>
           </AccordionDetails>
         </Accordion>
-        <Box sx={{ ...footerSx }} styles={footerSx}>
+        
+        <Box sx={{ ...footerSx }}>
           <Button
             variant="contained"
             onClick={handleCancel}

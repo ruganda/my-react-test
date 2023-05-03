@@ -1,21 +1,14 @@
 import { Table, TableHead, TableBody, TableRow, TableCell, TableContainer, Checkbox, Typography } from '@mui/material';
 import Paper from '@mui/material/Paper';
-import { useState, useContext } from 'react';
+import { useContext } from 'react';
 import SearchContext from '../context/SearchContext';
 
 
 const OrdersTable=()=> {
 
-  const [searchResults, setSearchResults, allData, setAllData] = useContext(SearchContext);
+  const {searchResults } = useContext(SearchContext);
 
-  const [selected, setSelected] = useState([]);
-  const handleChange = (event, id) => {
-    if (event.target.checked) {
-      setSelected([...selected, id]);
-    } else {
-      setSelected(selected.filter((el) => el !== id));
-    }
-  };
+
 
   return (
     <TableContainer component={Paper}>
@@ -24,15 +17,12 @@ const OrdersTable=()=> {
           <TableRow>
             <TableCell padding="checkbox">
               <Checkbox
-                indeterminate={
-                  selected.length > 0 && selected.length < searchResults.length
-                }
                 checked={false}
                 inputProps={{ 'aria-label': 'Select all items' }}
               />
             </TableCell>
             <TableCell>
-              <Typography variant="subtitle1" underline="always">
+              <Typography variant="subtitle1" >
                 Order #
               </Typography>
               <Typography variant="subtitle2" color="primary">
@@ -40,7 +30,7 @@ const OrdersTable=()=> {
               </Typography>
             </TableCell>
             <TableCell>
-              <Typography variant="subtitle1" underline="always">
+              <Typography variant="subtitle1" >
                 Type
               </Typography>
               <Typography variant="subtitle2" color="primary">
@@ -48,7 +38,7 @@ const OrdersTable=()=> {
               </Typography>
             </TableCell>
             <TableCell>
-              <Typography variant="subtitle1" underline="always">
+              <Typography variant="subtitle1">
                 Item
               </Typography>
               <Typography variant="subtitle2" color="primary">
@@ -56,7 +46,7 @@ const OrdersTable=()=> {
               </Typography>
             </TableCell>
             <TableCell>
-              <Typography variant="subtitle1" underline="always">
+              <Typography variant="subtitle1" >
                 Category
               </Typography>
               <Typography variant="subtitle2" color="primary">
@@ -64,7 +54,7 @@ const OrdersTable=()=> {
               </Typography>
             </TableCell>
             <TableCell>
-              <Typography variant="subtitle1" underline="always">
+              <Typography variant="subtitle1" >
                 Description
               </Typography>
               <Typography variant="subtitle2" color="primary">

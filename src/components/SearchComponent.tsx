@@ -24,6 +24,12 @@ const SearchInput = styled(InputBase)({
   padding: '0 8px',
   width: '250px',
 });
+interface FilterOptions {
+  item: string[];
+  order: string[];
+  type: string[];
+  apply: boolean;
+}
 
 const SearchNav = () => {
   const initialFilters = {
@@ -33,20 +39,20 @@ const SearchNav = () => {
     apply: false,
   };
 
-  const [searchResults, setSearchResults, allData, setAllData] =
+  const { searchResults, setSearchResults, allData } =
     useContext(SearchContext);
   const [open, setOpen] = useState(false);
-  const [filters, setFilters] = useState(initialFilters);
+  const [filters, setFilters] = useState<FilterOptions>(initialFilters);
 
   const [searchTerm, setSearchTerm] = useState('');
   const [itemNumber, setItemNumber] = useState('');
   const [orderNumber, setOrderNumber] = useState('');
 
-  const search = (terms) => {
+  const search = (terms: string) => {
     const searchTerms = terms.split(',').map((term) => term.trim());
     const results = allData.filter((order) =>
-      searchTerms.some((term) =>
-        order.item.toString().includes(term.toString())
+      searchTerms.some(
+        (term) => term && order.item.toString().includes(term.toString())
       )
     );
     setSearchResults(results);
@@ -59,7 +65,7 @@ const SearchNav = () => {
     return debouncedSearch.cancel;
   }, [searchTerm]);
 
-  const applyFilters = (filters) => {
+  const applyFilters = (filters: FilterOptions) => {
     if (!filters.apply) {
       if (searchTerm) {
         return searchResults;
@@ -72,10 +78,13 @@ const SearchNav = () => {
       const orderText = item.orderNumber.toString();
 
       return (
-        filters.item.some((term) =>
-          itemText.includes(term.trim().toString())
+        filters.item.some(
+          (term: string | number) =>
+          itemText.includes(term.toString().trim())
         ) &&
-        filters.order.some((term) => orderText.includes(term.trim().toString()))
+        filters.order.some((term: string | number) =>
+         orderText.includes(term.toString().trim())
+        )
       );
     });
 
@@ -86,9 +95,7 @@ const SearchNav = () => {
     return filteredData;
   };
 
-
-
-  const handleSearchChange = (event) => {
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
 
@@ -103,7 +110,9 @@ const SearchNav = () => {
           Item search
         </Typography>
         <Typography variant="caption" color="black">
-          {`${searchResultsCount} ${searchResultsCount===1? 'item': 'items'}`} 
+          {`${searchResultsCount} ${
+            searchResultsCount === 1 ? 'item' : 'items'
+          }`}
         </Typography>
       </div>
       <div
@@ -144,8 +153,8 @@ const SearchNav = () => {
             filters={filters}
             setFilters={setFilters}
             applyFilters={applyFilters}
-            itemNumber = {itemNumber}
-            setItemNumber = {setItemNumber}
+            itemNumber={itemNumber}
+            setItemNumber={setItemNumber}
             orderNumber={orderNumber}
             setOrderNumber={setOrderNumber}
           />
